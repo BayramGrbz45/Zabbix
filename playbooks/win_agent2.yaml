@@ -1,0 +1,4 @@
+---
+- hosts: zabbix_agent2_win
+  roles:
+     - role: community.zabbix.zabbix_agent

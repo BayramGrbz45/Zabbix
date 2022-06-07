@@ -1,0 +1,21 @@
+---
+zabbix_agent2: true
+
+zabbix_agent2_tlsconnect: psk
+zabbix_agent2_tlsaccept: psk
+zabbix_agent2_tlspsk_auto: True
+
+zabbix_agent_interfaces:
+  - type: "1"
+    main: "1"
+    useip: "1"
+    ip: "{{ ansible_host }}"
+    dns: "{{ ansible_fqdn }}"
+    port: "10050"
+
+zabbix_host_groups:
+  - Linux servers
+
+zabbix_link_templates:
+  - Linux by Zabbix agent
+  - ICMP Ping

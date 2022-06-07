@@ -1,0 +1,15 @@
+---
+- name: Auto generated password
+  user:
+    name: "{{ item }}"
+    password: "{{ lookup('password', '../files/psql_pass/' + item + '_{{ ansible_host }}_pass.txt length=15 chars=ascii_letters,digits') }}"
+  with_items:
+    - monitoring
+
+- name: Remove the user
+  ansible.builtin.user:
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+  with_items:
+    - monitoring

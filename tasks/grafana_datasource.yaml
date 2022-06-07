@@ -1,0 +1,37 @@
+---
+- name: Create postgres datasource
+  community.grafana.grafana_datasource:
+    name: "monitoring-postgres"
+    url: "{{ zabbix_url }}:3000"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_userpass }}"
+    org_id: "1"
+    ds_type: "postgres"
+    ds_url: "localhost:5432"
+    database: "monitoring"
+    user: "grafdbcon"
+    sslmode: "disable"
+    additional_json_data:
+      postgresVersion: 14
+      timescaledb: true
+    additional_secure_json_data:
+      password: "{{ lookup('file', '../files/psql_pass/grafdbcon_{{ ansible_host }}_password.txt') }}"
+
+- name: Zabbix datasource
+  community.grafana.grafana_datasource:
+    name: "monitoring"
+    url: "{{ zabbix_url }}:3000"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_userpass }}"
+    org_id: "1"
+    ds_type: "alexanderzobnin-zabbix-datasource"
+    ds_url: "{{ zabbix_url }}/api_jsonrpc.php"
+    zabbix_user: "{{ item }}"
+    zabbix_password: "{{ lookup('file', '../files/user_pass/{{ item }}_password.txt') }}"
+  with_items:
+    - grafmon
+
+- name: Restart service grafana-server
+  ansible.builtin.service:
+    name: grafana-server
+    state: restarted

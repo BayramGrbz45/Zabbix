@@ -1,0 +1,26 @@
+---
+zabbix2_win_package: zabbix_agent2-{{ zabbix_version_long }}-windows-amd64-openssl-static.zip
+zabbix2_win_download_link: "{{ zabbix_win_download_url }}/{{ zabbix_version_long | regex_search('^\\d+\\.\\d+') }}/{{ zabbix_version_long }}/{{ zabbix2_win_package }}"
+
+zabbix_agent2: true
+
+zabbix_agent2_tlsconnect: psk
+zabbix_agent2_tlsaccept: psk
+zabbix_agent2_tlspsk_auto: True
+
+zabbix_agent_enableremotecommands: 1
+
+zabbix_agent_interfaces:
+  - type: "1"
+    main: "1"
+    useip: "1"
+    ip: "{{ ansible_host }}"
+    dns: "{{ ansible_fqdn }}"
+    port: "10050"
+
+zabbix_host_groups:
+  - Windows Servers
+
+zabbix_link_templates:
+  - Windows by Zabbix agent
+  - ICMP Ping

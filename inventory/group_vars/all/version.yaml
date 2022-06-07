@@ -1,0 +1,2 @@
+---
+zabbix_agent_version: "{{ zabbix_version_info }}"

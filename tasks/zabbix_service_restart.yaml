@@ -1,0 +1,10 @@
+---
+- name: Enabled service zabbix server
+  ansible.builtin.service:
+    name: zabbix-server
+    enabled: yes
+
+- name: Restart service zabbix server
+  ansible.builtin.service:
+    name: zabbix-server
+    state: restarted

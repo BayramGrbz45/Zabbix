@@ -1,0 +1,17 @@
+---
+zabbix_server_fpinglocation: /usr/bin/fping
+zabbix_server_fping6location: /usr/bin/fping6
+zabbix_server_cachesize: 1024M
+
+
+
+
+
+
+
+
+
+
+
+
+

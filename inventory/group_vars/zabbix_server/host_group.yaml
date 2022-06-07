@@ -1,0 +1,5 @@
+---
+zabbix_host_group_add:
+  - Monitoring servers
+  - Linux servers
+  - Windows servers

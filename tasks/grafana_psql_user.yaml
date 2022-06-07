@@ -1,0 +1,23 @@
+---
+  - name: Ping Postgres Database
+    become_user: postgres
+    postgresql_ping:
+      db: postgres
+
+  - name: grafdbcon user create
+    become_user: postgres
+    community.postgresql.postgresql_user:
+      db: postgres
+      name: grafdbcon
+      password: "{{ lookup('file', '../files/psql_pass/grafdbcon_{{ ansible_host }}_password.txt') }}"
+      comment: grafdbcon user
+
+  - name: grafdbcon user monitoring database select
+    become_user: postgres
+    community.general.postgresql_privs:
+      db: monitoring
+      privs: SELECT
+      roles: grafdbcon
+      type: table
+      objs: ALL_IN_SCHEMA
+      grant_option: no

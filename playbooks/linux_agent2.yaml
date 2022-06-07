@@ -1,0 +1,11 @@
+---
+- hosts: zabbix_agent2_linux
+  become: yes
+  roles:
+     - role: community.zabbix.zabbix_agent
+
+- hosts: zabbix_agent2_linux
+  become: yes
+  tasks:
+    - name: Agent2 Restart
+      include_tasks: ../tasks/zabbix_agent2_restart.yaml

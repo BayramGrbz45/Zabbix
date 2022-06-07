@@ -1,0 +1,20 @@
+---
+- name: Nginx default delete
+  file:
+    state: absent
+    path: /etc/nginx/sites-enabled/default
+
+- name: Nginx default.conf delete
+  file:
+    state: absent
+    path: /etc/nginx/conf.d/default.conf
+
+- name: Enabled service nginx
+  ansible.builtin.service:
+    name: nginx
+    enabled: yes
+
+- name: Restart service nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted

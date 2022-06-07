@@ -1,0 +1,37 @@
+---
+zabbix_agent2_hostname: Monitoring
+zabbix_agent_visible_hostname: Monitoring
+zabbix_agent_hostname: "{{ zabbix_agent2_hostname }}"
+
+zabbix_agent2: true
+
+zabbix_agent_interfaces:
+  - type: "1"
+    main: "1"
+    useip: "1"
+    ip: "{{ ansible_host }}"
+    dns: "{{ ansible_fqdn }}"
+    port: "10050"
+
+zabbix_host_groups:
+  - Monitoring servers
+  - Linux servers
+
+zabbix_link_templates:
+  - Linux by Zabbix agent
+  - Zabbix server health
+  - PostgreSQL by Zabbix agent 2
+
+zabbix_agent2_tlsconnect: psk
+zabbix_agent2_tlsaccept: psk
+zabbix_agent2_tlspsk_auto: true
+
+zabbix_macros:
+  - macro_key: PG.URI
+    macro_value: tcp://localhost:5432
+
+  - macro_key: PG.USER
+    macro_value: mondbcon
+
+  - macro_key: PG.PASSWORD
+    macro_value: "{{ lookup('file', '../files/psql_pass/mondbcon_{{ ansible_host }}_password.txt') }}"

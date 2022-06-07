@@ -1,0 +1,25 @@
+[all]
+1zabbix  ansible_host=192.168.56.101 ansible_user=vagrant ansible_password=vagrant
+
+[zabbix_server]
+1zabbix
+
+[zabbix_agent2_linux]
+
+
+[zabbix_agent2_win]
+
+
+[all:vars]
+monitoring_url=mon.bayram.com
+ansible_python_interpreter=/usr/bin/python3
+zabbix_version_info=6.0
+zabbix_version_long=6.0.4
+zabbix_agent_server=192.168.56.101
+zabbix_agent_serveractive="{{ zabbix_agent_server }}"
+monitoring_timezone=Europe/Istanbul
+zabbix_url= "http://{{ monitoring_url }}"
+zabbix_username= Admin
+zabbix_userpass= zabbix
+grafana_username= admin
+grafana_userpass= admin

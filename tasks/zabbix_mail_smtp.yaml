@@ -1,0 +1,16 @@
+---
+- name: 'Create an email mediatype with SMTP authentication'
+  community.zabbix.zabbix_mediatype:
+    name: "Monitoring Mail"
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    type: 'email'
+    smtp_server: "{{ monitoring_smtp_server }}"
+    smtp_server_port: "{{ monitoring_smtp_server_port }}"
+    smtp_email: "{{ monitoring_smtp_email }}"
+    smtp_helo: "{{ monitoring_smtp_helo }}"
+    smtp_authentication: true
+    smtp_security: STARTTLS
+    username: "{{ monitoring_username }}"
+    password: "{{ monitoring_password }}"

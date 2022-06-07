@@ -1,0 +1,39 @@
+---
+- name: Create or Update Grafana user Super Admin
+  community.grafana.grafana_user:
+    url: "{{ zabbix_url }}:3000"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_userpass }}"
+    name: "{{ item.name }}"
+    email: "{{ item.sendto }}"
+    login: "{{ item.alias }}"
+    password: "{{ lookup('file', '../files/user_pass/{{ item.alias }}_password.txt') }}"
+    is_admin: yes
+    state: "{{ item.state }}"
+  with_items: "{{ monitoring_super_admin }}"
+
+- name: Create or Update Grafana user Admin
+  community.grafana.grafana_user:
+    url: "{{ zabbix_url }}:3000"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_userpass }}"
+    name: "{{ item.name }}"
+    email: "{{ item.sendto }}"
+    login: "{{ item.alias }}"
+    password: "{{ lookup('file', '../files/user_pass/{{ item.alias }}_password.txt') }}"
+    is_admin: yes
+    state: "{{ item.state }}"
+  with_items: "{{ monitoring_admin }}"
+
+- name: Create or Update Grafana user Monitor
+  community.grafana.grafana_user:
+    url: "{{ zabbix_url }}:3000"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_userpass }}"
+    name: "{{ item.name }}"
+    email: "{{ item.sendto }}"
+    login: "{{ item.alias }}"
+    password: "{{ lookup('file', '../files/user_pass/{{ item.alias }}_password.txt') }}"
+    is_admin: no
+    state: "{{ item.state }}"
+  with_items: "{{ monitoring_user }}"

@@ -1,0 +1,7 @@
+---
+- name: Passwordless Sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%zabbix\s'
+    line: "%zabbix ALL=(ALL) NOPASSWD: /usr/bin/traceroute, /usr/bin/nmap"

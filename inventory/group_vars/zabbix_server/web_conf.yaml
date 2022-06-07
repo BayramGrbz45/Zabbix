@@ -1,0 +1,3 @@
+---
+zabbix_server_hostname: 127.0.0.1
+zabbix_server_name: Monitoring

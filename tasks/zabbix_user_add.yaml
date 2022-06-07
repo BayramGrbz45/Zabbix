@@ -1,0 +1,134 @@
+---
+- name: Monitoring User Groups
+  community.zabbix.zabbix_usergroup:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    name: Monitoring
+    rights:
+        - host_group: "{{ item }}"
+          permission: read-only
+    state: present
+  with_items: "{{ zabbix_host_group_add }}"
+
+- name: Grafhic User Groups
+  community.zabbix.zabbix_usergroup:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    name: Grafhic
+    rights:
+        - host_group: "{{ item }}"
+          permission: read-only
+    state: present
+  with_items: "{{ zabbix_host_group_add }}"
+
+
+- name: Create a new Admin users.
+  community.zabbix.zabbix_user:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    alias: "{{ item.alias }}"
+    name: "{{ item.name }}"
+    surname: "{{ item.surname }}"
+    usrgrps:
+      - Zabbix administrators
+    passwd: "{{ lookup('file', '../files/user_pass/{{ item.alias }}_password.txt') }}"
+    theme: dark-theme
+    refresh: '30'
+    rows_per_page: '200'
+    user_medias:
+      - mediatype: Monitoring Mail
+        sendto: "{{ item.sendto }}"
+        period: 1-7,00:00-24:00
+        severity:
+          not_classified: yes
+          information: yes
+          warning: yes
+          average: yes
+          high: yes
+          disaster: yes
+        active: yes
+    type: Zabbix admin
+    state: present
+  with_items: "{{ monitoring_admin }}"
+
+- name: Create a new Monitor users.
+  community.zabbix.zabbix_user:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    alias: "{{ item.alias }}"
+    name: "{{ item.name }}"
+    surname: "{{ item.surname }}"
+    usrgrps:
+      - Monitoring
+    passwd: "{{ lookup('file', '../files/user_pass/{{ item.alias }}_password.txt') }}"
+    theme: dark-theme
+    refresh: '30'
+    rows_per_page: '200'
+    user_medias:
+      - mediatype: Monitoring Mail
+        sendto: "{{ item.sendto }}"
+        period: 1-7,00:00-24:00
+        severity:
+          not_classified: yes
+          information: yes
+          warning: yes
+          average: yes
+          high: yes
+          disaster: yes
+        active: yes
+    type: Zabbix user
+    state: present
+  with_items: "{{ monitoring_user }}"
+
+- name: Create a new Super Admin users.
+  community.zabbix.zabbix_user:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    alias: "{{ item.alias }}"
+    name: "{{ item.name }}"
+    surname: "{{ item.surname }}"
+    usrgrps:
+      - Zabbix administrators
+    passwd: "{{ lookup('file', '../files/user_pass/{{ item.alias }}_password.txt') }}"
+    theme: dark-theme
+    refresh: '30'
+    rows_per_page: '200'
+    user_medias:
+      - mediatype: Monitoring Mail
+        sendto: "{{ item.sendto }}"
+        period: 1-7,00:00-24:00
+        severity:
+          not_classified: yes
+          information: yes
+          warning: yes
+          average: yes
+          high: yes
+          disaster: yes
+        active: yes
+    type: Zabbix super admin
+    state: present
+  with_items: "{{ monitoring_super_admin }}"
+
+- name: Create grafmon users
+  community.zabbix.zabbix_user:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    alias: "{{ item }}"
+    name: "{{ item }}"
+    surname: "{{ item }}"
+    usrgrps:
+      - Grafhic
+    passwd: "{{ lookup('file', '../files/user_pass/{{ item }}_password.txt') }}"
+    theme: dark-theme
+    refresh: '30'
+    rows_per_page: '200'
+    type: Zabbix user
+    state: present
+  with_items:
+    - grafmon

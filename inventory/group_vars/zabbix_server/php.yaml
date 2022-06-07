@@ -1,0 +1,13 @@
+---
+php_webserver_daemon: "nginx"
+
+php_memory_limit: "128M"
+php_max_execution_time: "300"
+php_upload_max_filesize: "256M"
+php_date_timezone: "{{ monitoring_timezone }}"
+
+php_packages :
+ - php7.4
+ - php7.4-fpm
+ - php7.4-apcu
+ - php7.4-pgsql

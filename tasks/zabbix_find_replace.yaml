@@ -1,0 +1,99 @@
+---
+- name: Zabbix -> Monitoring
+  ansible.builtin.replace:
+    path: /usr/share/zabbix/app/partials/administration.system.info.php
+    after: 'ZBX_STYLE_LIST_TABLE_STICKY_HEADER'
+    before: 'Number of hosts'
+    regexp: 'Zabbix server is running'
+    replace: 'Monitoring server is running'
+    backup: yes
+
+- name: Baranding
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/brand.conf.php
+    dest: /usr/share/zabbix/local/conf/brand.conf.php
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: 120*120
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/apple-touch-icon-120x120-precomposed.png
+    dest: /usr/share/zabbix/assets/img/apple-touch-icon-120x120-precomposed.png
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: 152*152
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/apple-touch-icon-152x152-precomposed.png
+    dest: /usr/share/zabbix/assets/img/apple-touch-icon-152x152-precomposed.png
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: 180*180
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/apple-touch-icon-180x180-precomposed.png
+    dest: /usr/share/zabbix/assets/img/apple-touch-icon-180x180-precomposed.png
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: 76*76
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/apple-touch-icon-76x76-precomposed.png
+    dest: /usr/share/zabbix/assets/img/apple-touch-icon-76x76-precomposed.png
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: browser
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/browser-sprite.png  
+    dest: /usr/share/zabbix/assets/img/browser-sprite.png 
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: icon
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/icon-sprite.svg                   
+    dest: /usr/share/zabbix/assets/img/icon-sprite.svg
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: 144*144
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/ms-tile-144x144.png
+    dest: /usr/share/zabbix/assets/img/ms-tile-144x144.png 
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: touch
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/touch-icon-192x192.png
+    dest: /usr/share/zabbix/assets/img/touch-icon-192x192.png
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes
+
+- name: favicon
+  ansible.builtin.copy:
+    src: ../templates/zabbix-php-png/favicon.ico
+    dest: /usr/share/zabbix/favicon.ico
+    owner: root
+    group: root
+    mode: "0644"
+    backup: yes

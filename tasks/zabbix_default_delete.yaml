@@ -1,0 +1,58 @@
+---
+- name: Default Zabbix server host delete
+  local_action:
+    module: community.zabbix.zabbix_host
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    host_name: Zabbix server
+    state: absent
+
+- name: Delete host groups Zabbix servers
+  local_action:
+    module: community.zabbix.zabbix_group
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    state: absent
+    host_groups:
+      - Zabbix servers
+
+- name: Create Zabbix map
+  community.zabbix.zabbix_map:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    name: Local network
+    state: absent
+
+- name: Delete trigger action
+  community.zabbix.zabbix_action:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    name: "Report problems to Zabbix administrators"
+    event_source: 'trigger'
+    state: absent
+
+- name: Delete discovery action
+  community.zabbix.zabbix_action:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    name: "Auto discovery. Linux servers."
+    event_source: 'discovery'
+    state: absent
+
+- name: Delete internal action
+  community.zabbix.zabbix_action:
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_username }}"
+    login_password: "{{ zabbix_userpass }}"
+    name: "{{ item }}"
+    event_source: 'internal'
+    state: absent
+  with_items:
+    - Report not supported items
+    - Report not supported low level discovery rules
+    - Report unknown triggers

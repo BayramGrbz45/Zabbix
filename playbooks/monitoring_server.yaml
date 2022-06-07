@@ -1,0 +1,94 @@
+---
+- hosts: zabbix_server
+  become: yes
+  tasks:
+    - name: Start Common
+      include_tasks: ../tasks/common.yaml
+
+- hosts: zabbix_server
+  become: yes
+  tasks:
+    - name: Postgresql Password Genarator
+      include_tasks: ../tasks/psql_pass.yaml
+
+    - name: Web Login User Password
+      include_tasks: ../tasks/user_password_generator.yaml
+
+- hosts: zabbix_server
+  become: yes
+  roles:
+    - role: nginxinc.nginx_core.nginx
+    - role: geerlingguy.php
+    - role: geerlingguy.postgresql
+
+- hosts: zabbix_server
+  become: yes
+  roles:
+    - role: community.zabbix.zabbix_server
+
+- hosts: zabbix_server
+  become: yes
+  roles:
+    - role: community.zabbix.zabbix_web
+
+- hosts: zabbix_server
+  become: yes
+  tasks:
+    - name: Odbc
+      include_tasks: ../tasks/odbc_install.yaml
+
+    - name: Zabbix Find Replace
+      include_tasks: ../tasks/zabbix_find_replace.yaml
+ 
+    - name: Zabbix Default Delete
+      include_tasks: ../tasks/zabbix_default_delete.yaml
+
+    - name: Nginx Service Conf - Restart
+      include_tasks: ../tasks/nginx_service_restart.yaml
+
+    - name: Php Service Conf - Restart
+      include_tasks: ../tasks/php_service_restart.yaml
+
+    - name: Zabbix Service Conf - Restart
+      include_tasks: ../tasks/zabbix_service_restart.yaml
+
+    - name: Zabbix Visudo
+      include_tasks: ../tasks/visudo.yaml
+
+    - name: Hosts Group Create
+      include_tasks: ../tasks/zabbix_hostgroup_create.yaml
+
+    - name: Mail Conf
+      include_tasks: ../tasks/zabbix_mail_smtp.yaml
+
+    - name: User Add
+      include_tasks: ../tasks/zabbix_user_add.yaml
+
+- hosts: zabbix_server
+  become: yes
+  tasks:
+    - name: Grafana Install
+      include_tasks: ../tasks/grafana_install.yaml
+
+#    - name: Grafana User Add
+#      include_tasks: ../tasks/grafana_user_add.yaml
+
+    - name: Postgresql select user
+      include_tasks: ../tasks/grafana_psql_user.yaml
+
+    - name: Postgresql + Zabbix Datasource
+      include_tasks: ../tasks/grafana_datasource.yaml
+
+- hosts: zabbix_server
+  become: yes
+  roles:
+     - role: community.zabbix.zabbix_agent
+
+- hosts: zabbix_server
+  become: yes
+  tasks:
+    - name: Zabbix Agent2 Psql Connect
+      include_tasks: ../tasks/zabbix_psql_monitoring.yaml
+
+    - name: Agent2 Restart
+      include_tasks: ../tasks/zabbix_agent2_restart.yaml

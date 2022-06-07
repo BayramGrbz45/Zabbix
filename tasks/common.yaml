@@ -1,0 +1,115 @@
+---
+- name: APT Baseline
+  apt:
+    update_cache: yes
+    upgrade: safe
+
+- name: Update the /etc/hosts
+  lineinfile:
+    path: "/etc/hosts"
+    regexp: "{{ zabbix_agent_server }} {{ monitoring_url }}"
+    line: "{{ zabbix_agent_server }} {{ monitoring_url }}"
+    state: present
+
+- name: Install Common Packages
+  apt:
+    name:
+      - vim
+      - software-properties-common
+      - net-tools
+      - git
+      - htop
+      - wget
+      - nmon
+      - curl
+      - acl
+      - nmap
+      - traceroute
+      - python3-pip
+      - apt-transport-https
+
+- name: zabbix-api install
+  pip:
+    name: zabbix-api==0.5.4
+
+- name: pydotplus install
+  pip:
+    name: pydotplus
+
+- name: webcolors install
+  pip:
+    name: webcolors
+
+- name: Pillow install
+  pip:
+    name: Pillow
+
+- name: Graphviz install
+  pip:
+    name: Graphviz
+
+- name: Add Groups
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - admin
+    - idareci
+
+- name: Add Idareci User
+  user:
+    name: idareci
+    comment: Idare Ediyoruz
+    group: idareci
+    groups:
+      - admin
+    shell: /bin/bash
+
+- name: Add Controller SSH Key
+  authorized_key:
+    user: idareci
+    state: present
+    comment: idareci
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub' )}}"
+
+- name: Add SSH Keys
+  authorized_key:
+    user: idareci
+    state: "{{ item.state }}"
+    comment: "{{ item.sendto }}"
+    key: "https://github.com/{{ item.name }}.keys"
+  with_items: "{{ git_users }}"
+
+- name: Passwordless Sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%admin\s'
+    line: "%admin ALL=(ALL) NOPASSWD: ALL"
+
+- name: Ensure Locale
+  community.general.locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set timezone to Europe/Istanbul
+  community.general.timezone:
+    name: Europe/Istanbul
+
+- name: Set Locale
+  command: localectl set-locale LANG=en_US.UTF-8
+
+- name: Add an Postgresql signing key
+  ansible.builtin.apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Add postgresql sources list
+  ansible.builtin.apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main
+    state: present
+
+- name: APT Baseline
+  apt:
+    update_cache: yes
+    upgrade: safe

@@ -1,0 +1,5 @@
+---
+zabbix_timezone: "{{ monitoring_timezone }}"
+zabbix_websrv: nginx
+zabbix_web_conf_web_user: www-data
+zabbix_web_conf_web_group: www-data

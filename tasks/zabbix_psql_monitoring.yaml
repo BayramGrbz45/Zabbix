@@ -1,0 +1,46 @@
+---
+  - name: Ping Postgres Database
+    become_user: postgres
+    postgresql_ping:
+      db: postgres
+
+  - name: mondbcon user create
+    become_user: postgres
+    postgresql_user:
+      db: postgres
+      name: mondbcon
+      password: "{{ lookup('file', '../files/psql_pass/mondbcon_{{ ansible_host }}_password.txt') }}"
+      comment: mondbcon user
+
+  - name: GRANT EXECUTE pg_catalog.pg_ls_dir
+    become_user: postgres
+    community.general.postgresql_privs:
+      database: postgres
+      type: function
+      state: present
+      privs: EXECUTE
+      roles: mondbcon
+      objs: pg_ls_dir(text)
+      schema: pg_catalog
+
+  - name: GRANT EXECUTE pg_catalog.pg_stat_file
+    become_user: postgres
+    community.general.postgresql_privs:
+      database: postgres
+      type: function
+      state: present
+      privs: EXECUTE
+      roles: mondbcon
+      objs: pg_stat_file(text)
+      schema: pg_catalog
+
+  - name: GRANT EXECUTE pg_catalog.pg_ls_waldir
+    become_user: postgres
+    community.general.postgresql_privs:
+      database: postgres
+      type: function
+      state: present
+      privs: EXECUTE
+      roles: mondbcon
+      objs: pg_ls_waldir()
+      schema: pg_catalog

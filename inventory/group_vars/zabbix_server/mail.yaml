@@ -1,0 +1,8 @@
+---
+monitoring_smtp_server: 'smtp.gmail.com'
+monitoring_smtp_server_port: 587
+monitoring_smtp_helo: 'smtp.gmail.com'
+monitoring_smtp_email: 'denomas@gmail.com'
+monitoring_smtp_authentication: true
+monitoring_username: 'denomas@gmail.com'
+monitoring_password: 'password'

@@ -1,0 +1,30 @@
+---
+# idareci user ssh-key add
+git_users:
+  - name: bayramgrbz45
+    sendto: bayramgrbz45@gmail.com
+    state: present
+
+#monitor super admin
+monitoring_super_admin:
+  - name: superadmin
+    alias: superadminmon
+    surname: mon
+    sendto: superadminmon@superadminmon.com
+    state: present
+
+#monitor admin
+monitoring_admin:
+  - name: admin
+    alias: adminmon
+    surname: mon
+    sendto: adminmon@adminmon.com
+    state: present
+
+#monitor user
+monitoring_user:
+  - name: user
+    alias: usermon
+    surname: mon
+    sendto: usermon@usermon.com
+    state: present

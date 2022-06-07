@@ -1,0 +1,10 @@
+---
+- name: Import Grafana dashboard Zabbix
+  community.grafana.grafana_dashboard:
+    grafana_url: "{{ zabbix_url }}:3000"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_userpass }}"
+    state: present
+    overwrite: yes
+    path: "../templates/grafana-template/{{ item }}"
+  with_items: "{{ grafana_template_list }}"
