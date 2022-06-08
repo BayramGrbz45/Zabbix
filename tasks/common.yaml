@@ -27,10 +27,12 @@
       - traceroute
       - python3-pip
       - apt-transport-https
+      - snmp
+      - snmp-mibs-downloader
 
 - name: zabbix-api install
   pip:
-    name: zabbix-api==0.5.4
+    name: zabbix-api
 
 - name: pydotplus install
   pip:

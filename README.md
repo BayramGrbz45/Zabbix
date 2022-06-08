@@ -2,8 +2,6 @@
 
 ## Preliminary
 
-
-
 - 2 Adet Ubuntu 20.04 (Ansible - Zabbix Server)
 
 - Ansible server kurulumu.
