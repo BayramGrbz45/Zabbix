@@ -1,0 +1,22 @@
+---
+- name: mibs
+  ansible.builtin.replace:
+    path: /etc/snmp/snmp.conf
+    after: 'them by commenting out the following line'
+    before: 'If you want'
+    regexp: 'mibs'
+    replace: '# mibs'
+    backup: yes
+
+- name: enabled service snmpd
+  ansible.builtin.service:
+    name: snmpd
+    enabled: yes
+
+- name: Restart service snmpd
+  ansible.builtin.service:
+    name: snmpd
+    state: restarted
+
+- name: snmp download
+  ansible.builtin.command: download-mibs

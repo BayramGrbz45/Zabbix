@@ -44,6 +44,9 @@
 
     - name: Zabbix Find Replace
       include_tasks: ../tasks/zabbix_find_replace.yaml
+
+    - name: SNMP Find Replace
+      include_tasks: ../tasks/snmp.yaml
  
     - name: Zabbix Default Delete
       include_tasks: ../tasks/zabbix_default_delete.yaml
