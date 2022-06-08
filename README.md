@@ -15,6 +15,8 @@
     - pip3 install --upgrade setuptools wheel pip
     - pip3 install ansible
     - pip3 install netaddr zabbix-api grafana-api pywinrm[credssp]
+    - git clone https://github.com/BayramGrbz45/Zabbix.git
+    - cd Zabbix
     - ansible-galaxy install -r roles/requirements.yaml
 
 ### Services 

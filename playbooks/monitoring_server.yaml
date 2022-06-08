@@ -33,6 +33,11 @@
 
 - hosts: zabbix_server
   become: yes
+  roles:
+    - role: community.zabbix.zabbix_javagateway
+
+- hosts: zabbix_server
+  become: yes
   tasks:
     - name: Odbc
       include_tasks: ../tasks/odbc_install.yaml

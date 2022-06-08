@@ -1,0 +1,2 @@
+---
+zabbix_server_javagateway: "{{ ansible_host }}"
