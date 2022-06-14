@@ -1,0 +1,29 @@
+---
+- name: Create a new host or update SNMPv1
+  local_action:
+    module: community.zabbix.zabbix_host
+    server_url: "{{ zabbix_url }}"
+    login_user: "{{ zabbix_api_user }}"
+    login_password: "{{ zabbix_api_pass }}"
+    host_name: "{{ item.name }}"
+    status: enabled
+    state: present
+    inventory_mode: automatic
+    interfaces:
+      - type: "2"
+        main: "1"
+        useip: "1"
+        ip: "{{ item.ip }}"
+        port: "161"
+        bulk: "1"
+        details:
+           bulk: "1"
+           community: "{{ item.community }}"
+           version: "{{ item.version }}"
+    host_groups: "{{ item.groups }}"
+    link_templates: "{{ item.templates }}"
+  delegate_to: localhost
+  run_once: True
+  when:
+    - ( item.version == "1" ) or ( item.version == "2" )
+  with_items: "{{ snmp_inventory_v_1_2' }}"

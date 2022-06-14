@@ -1,0 +1,8 @@
+---
+snmp_inventory_v_1_2:
+  - name:
+    ip:
+    community:
+    version:
+    templates:
+    groups:
